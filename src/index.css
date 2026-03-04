@@ -331,6 +331,15 @@ body {
   color: #1e4a50;
 }
 
+@keyframes progress-bar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 .mono {
   font-family: "Space Mono", monospace;
 }

@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Icon from "@/components/ui/icon";
 
 const IMG1 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/a46093ac-accf-45b0-8922-81e0427dfd5b.jpg";
 const IMG2 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/3553e3d6-6071-4d25-9cb7-7a465983eb0e.jpg";
 const IMG3 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/a5a63f0a-021a-4cf9-bc40-1120a1c804bd.jpg";
+const IMG4 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/abe6748f-f6d5-45e5-bb95-dbec473093b0.jpg";
+const IMG5 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/b9f4b789-82ea-4a16-845c-ac9e10dbd8d8.jpg";
+const IMG6 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/79e63512-5a8e-4d21-be0a-d4c56a7f62c2.jpg";
+
+const HERO_SLIDES = [
+  { img: IMG6, label: "Москва. Ночь. Кино.", sub: "Аэросъёмка городской хроники" },
+  { img: IMG4, label: "Магия кинематографа", sub: "Съёмочная площадка в деле" },
+  { img: IMG5, label: "Точность каждого кадра", sub: "Профессиональное оборудование" },
+  { img: IMG1, label: "Эпическое повествование", sub: "Художественный кинематограф" },
+];
 
 const CYAN  = "#00F5FF";
 const BG    = "#080C12";
@@ -74,8 +84,26 @@ const Rule = () => <hr className="hr-rule" />;
 export default function Index() {
   const [page, setPage] = useState(1);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [slide, setSlide] = useState(0);
+  const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
+  const [isAnimating, setIsAnimating] = useState(false);
   const totalPages = Math.ceil(portfolio.length / ITEMS);
   const visible = portfolio.slice((page - 1) * ITEMS, page * ITEMS);
+
+  const goTo = useCallback((idx: number, dir: "next" | "prev" = "next") => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setSlideDir(dir);
+    setSlide(idx);
+    setTimeout(() => setIsAnimating(false), 700);
+  }, [isAnimating]);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      goTo((slide + 1) % HERO_SLIDES.length, "next");
+    }, 5000);
+    return () => clearInterval(t);
+  }, [slide, goTo]);
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: "#B0E8EC", overflowX: "hidden" }}>
@@ -229,277 +257,235 @@ export default function Index() {
       </header>
 
       {/* ══════════════════════════
-          HERO
+          HERO — FULLSCREEN SLIDER
       ══════════════════════════ */}
       <section
         style={{
           position: "relative",
-          minHeight: "calc(100vh - 93px)",
-          display: "flex",
-          alignItems: "center",
+          height: "calc(100vh - 93px)",
+          minHeight: "560px",
           overflow: "hidden",
-          borderBottom: "1px solid rgba(0,245,255,0.08)",
+          borderBottom: "1px solid rgba(0,245,255,0.1)",
         }}
       >
-        {/* bg glow blobs */}
-        <div style={{ position: "absolute", top: "10%", left: "-10%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0,245,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "0%", right: "-5%", width: "600px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(155,89,255,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
+        {/* Slides */}
+        {HERO_SLIDES.map((s, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: i === slide ? 1 : 0,
+              transition: "opacity 1s ease",
+              zIndex: i === slide ? 2 : 1,
+            }}
+          >
+            <img
+              src={s.img}
+              alt={s.label}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+                filter: "brightness(0.45) saturate(0.55) hue-rotate(170deg)",
+                transform: i === slide ? "scale(1.04)" : "scale(1)",
+                transition: "transform 6s ease, opacity 1s ease",
+              }}
+            />
+          </div>
+        ))}
 
+        {/* Grid overlay */}
         <div
           style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "80px 40px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "80px",
-            alignItems: "center",
-            width: "100%",
+            position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
+            backgroundImage: "linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px)",
+            backgroundSize: "40px 40px",
           }}
-          className="max-md:grid-cols-1"
+        />
+
+        {/* Gradient vignette */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", background: "linear-gradient(to right, rgba(8,12,18,0.85) 40%, rgba(8,12,18,0.2) 100%), linear-gradient(to top, rgba(8,12,18,0.7) 0%, transparent 50%)" }} />
+
+        {/* Content */}
+        <div
+          style={{
+            position: "absolute", inset: 0, zIndex: 5,
+            display: "flex", alignItems: "center",
+            maxWidth: "1280px", margin: "0 auto", padding: "0 40px", width: "100%",
+            left: "50%", transform: "translateX(-50%)",
+          }}
         >
-          {/* Left */}
-          <div>
-            <div className="anim-up d1" style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+          <div style={{ maxWidth: "620px" }}>
+            {/* Slide counter */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
               <div style={{ width: "28px", height: "1px", background: CYAN, opacity: 0.5 }} />
-              <Tag>// ГЛАВНЫЙ ЭКРАН — ВИДЕОПОРТФОЛИО</Tag>
+              <Tag>// ГЛАВНЫЙ ЭКРАН — {String(slide + 1).padStart(2, "0")} / {String(HERO_SLIDES.length).padStart(2, "0")}</Tag>
+            </div>
+
+            {/* Slide sub-label */}
+            <div
+              key={`sub-${slide}`}
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "0.65rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                color: CYAN,
+                opacity: 0.7,
+                marginBottom: "14px",
+                animation: "fade-up 0.6s ease both",
+              }}
+            >
+              {HERO_SLIDES[slide].sub}
             </div>
 
             <h1
-              className="anim-up d2"
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 700,
-                fontSize: "clamp(2.6rem, 6vw, 5rem)",
-                lineHeight: 1.05,
+                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
+                lineHeight: 1.0,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: "#D0F4F8",
                 marginBottom: "8px",
-                textShadow: "0 0 40px rgba(0,245,255,0.15)",
+                textShadow: "0 0 60px rgba(0,245,255,0.2)",
               }}
             >
               Лучше снимать,
             </h1>
             <h1
-              className="anim-up d2"
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 300,
-                fontSize: "clamp(2.6rem, 6vw, 5rem)",
-                lineHeight: 1.05,
+                fontStyle: "italic",
+                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
+                lineHeight: 1.0,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: CYAN,
                 marginBottom: "28px",
-                textShadow: "0 0 30px rgba(0,245,255,0.4)",
-                fontStyle: "italic",
+                textShadow: "0 0 40px rgba(0,245,255,0.5)",
               }}
             >
               чем не снимать
             </h1>
 
-            <Rule />
+            <div style={{ width: "60px", height: "1px", background: CYAN, opacity: 0.4, marginBottom: "24px" }} />
+
             <p
-              className="anim-up d3"
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 300,
-                fontSize: "0.95rem",
+                fontSize: "1rem",
                 lineHeight: 1.8,
                 color: "#5A9AA0",
-                maxWidth: "460px",
-                margin: "20px 0 32px",
+                maxWidth: "480px",
+                marginBottom: "36px",
               }}
             >
               Студия визуального искусства. Создаём художественные и документальные фильмы, храним архив кинопроектов и развиваем культуру кинематографии.
             </p>
 
-            <div className="anim-up d4" style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "52px" }}>
               <button className="btn-primary">
-                Смотреть архив
-                <Icon name="ArrowRight" size={14} />
+                Смотреть архив <Icon name="ArrowRight" size={14} />
               </button>
               <button className="btn-outline">О студии</button>
             </div>
 
             {/* Stats */}
-            <div
-              className="anim-up d5"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3,1fr)",
-                gap: "0",
-                marginTop: "48px",
-                border: "1px solid rgba(0,245,255,0.12)",
-              }}
-            >
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", border: "1px solid rgba(0,245,255,0.12)", maxWidth: "380px" }}>
               {[["200+", "Проектов"], ["20+", "Лет опыта"], ["50+", "Наград"]].map(([n, l], i) => (
-                <div
-                  key={l}
-                  style={{
-                    padding: "16px 20px",
-                    borderRight: i < 2 ? "1px solid rgba(0,245,255,0.12)" : "none",
-                    position: "relative",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "'Rajdhani', sans-serif",
-                      fontWeight: 700,
-                      fontSize: "1.8rem",
-                      letterSpacing: "0.06em",
-                      color: CYAN,
-                      textShadow: "0 0 20px rgba(0,245,255,0.5)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {n}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Space Mono', monospace",
-                      fontSize: "0.58rem",
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      color: "#2A7080",
-                      marginTop: "4px",
-                    }}
-                  >
-                    {l}
-                  </div>
+                <div key={l} style={{ padding: "14px 18px", borderRight: i < 2 ? "1px solid rgba(0,245,255,0.12)" : "none", background: "rgba(8,12,18,0.5)", backdropFilter: "blur(8px)" }}>
+                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "1.6rem", color: CYAN, textShadow: "0 0 16px rgba(0,245,255,0.5)", lineHeight: 1 }}>{n}</div>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#2A7080", marginTop: "3px" }}>{l}</div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Right — video frame */}
-          <div className="anim-up d3 hidden md:block">
-            <div
-              style={{
-                position: "relative",
-                border: "1px solid rgba(0,245,255,0.2)",
-                padding: "2px",
-                boxShadow: "0 0 40px rgba(0,245,255,0.06)",
-              }}
-            >
-              {/* corner marks */}
-              {["top-0 left-0", "top-0 right-0", "bottom-0 left-0", "bottom-0 right-0"].map((pos, i) => (
-                <div
-                  key={i}
-                  style={{
-                    position: "absolute",
-                    width: "14px",
-                    height: "14px",
-                    borderColor: CYAN,
-                    borderStyle: "solid",
-                    borderWidth: i === 0 ? "2px 0 0 2px" : i === 1 ? "2px 2px 0 0" : i === 2 ? "0 0 2px 2px" : "0 2px 2px 0",
-                    top: i < 2 ? "-1px" : "auto",
-                    bottom: i >= 2 ? "-1px" : "auto",
-                    left: i % 2 === 0 ? "-1px" : "auto",
-                    right: i % 2 === 1 ? "-1px" : "auto",
-                    zIndex: 2,
-                  }}
-                />
-              ))}
+        {/* Slider controls — right side */}
+        <div
+          style={{
+            position: "absolute", right: "40px", top: "50%", transform: "translateY(-50%)",
+            zIndex: 6, display: "flex", flexDirection: "column", gap: "10px", alignItems: "center",
+          }}
+        >
+          <button
+            onClick={() => goTo((slide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length, "prev")}
+            style={{ width: "38px", height: "38px", border: "1px solid rgba(0,245,255,0.25)", background: "rgba(8,12,18,0.7)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s", backdropFilter: "blur(6px)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 12px rgba(0,245,255,0.3)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.25)"; e.currentTarget.style.boxShadow = "none"; }}
+          >
+            <Icon name="ChevronUp" size={16} style={{ color: CYAN }} />
+          </button>
 
-              <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden" }}>
-                <img
-                  src={IMG1}
-                  alt="Hero"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "brightness(0.65) saturate(0.7) hue-rotate(170deg)" }}
-                />
-                {/* overlay grid */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: "linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px)",
-                    backgroundSize: "30px 30px",
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(135deg, rgba(8,12,18,0.4) 0%, transparent 60%)",
-                  }}
-                />
-                {/* play button */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <button
-                    style={{
-                      width: "64px",
-                      height: "64px",
-                      border: `1.5px solid ${CYAN}`,
-                      borderRadius: "50%",
-                      background: "rgba(0,245,255,0.08)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      boxShadow: "0 0 30px rgba(0,245,255,0.3)",
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(0,245,255,0.18)";
-                      e.currentTarget.style.boxShadow = "0 0 50px rgba(0,245,255,0.5)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(0,245,255,0.08)";
-                      e.currentTarget.style.boxShadow = "0 0 30px rgba(0,245,255,0.3)";
-                    }}
-                  >
-                    <Icon name="Play" size={22} style={{ color: CYAN, marginLeft: "3px" }} />
-                  </button>
-                </div>
-                {/* label */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "12px",
-                    left: "12px",
-                    background: "rgba(8,12,18,0.85)",
-                    border: "1px solid rgba(0,245,255,0.2)",
-                    padding: "5px 10px",
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: CYAN,
-                    backdropFilter: "blur(6px)",
-                  }}
-                >
-                  ▶ ШОУРИЛ 2024
-                </div>
-                {/* REC indicator */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "12px",
-                    right: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    background: "rgba(8,12,18,0.8)",
-                    border: "1px solid rgba(0,245,255,0.15)",
-                    padding: "4px 8px",
-                  }}
-                >
-                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF3B3B", animation: "pulse-border 1.5s ease infinite" }} />
-                  <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#FF6060" }}>REC</span>
-                </div>
-              </div>
-            </div>
+          {/* Dots */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "8px 0" }}>
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i, i > slide ? "next" : "prev")}
+                style={{
+                  width: i === slide ? "3px" : "3px",
+                  height: i === slide ? "28px" : "10px",
+                  background: i === slide ? CYAN : "rgba(0,245,255,0.25)",
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: i === slide ? "0 0 8px rgba(0,245,255,0.6)" : "none",
+                  padding: 0,
+                }}
+              />
+            ))}
           </div>
+
+          <button
+            onClick={() => goTo((slide + 1) % HERO_SLIDES.length, "next")}
+            style={{ width: "38px", height: "38px", border: "1px solid rgba(0,245,255,0.25)", background: "rgba(8,12,18,0.7)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s", backdropFilter: "blur(6px)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 12px rgba(0,245,255,0.3)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.25)"; e.currentTarget.style.boxShadow = "none"; }}
+          >
+            <Icon name="ChevronDown" size={16} style={{ color: CYAN }} />
+          </button>
+        </div>
+
+        {/* Progress bar */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 6, height: "2px", background: "rgba(0,245,255,0.08)" }}>
+          <div
+            key={slide}
+            style={{
+              height: "100%",
+              background: `linear-gradient(90deg, ${CYAN}, rgba(0,245,255,0.4))`,
+              boxShadow: "0 0 8px rgba(0,245,255,0.5)",
+              animation: "progress-bar 5s linear forwards",
+            }}
+          />
+        </div>
+
+        {/* Slide caption bottom-left */}
+        <div
+          key={`cap-${slide}`}
+          style={{
+            position: "absolute", bottom: "20px", left: "40px", zIndex: 6,
+            background: "rgba(8,12,18,0.75)", backdropFilter: "blur(8px)",
+            border: "1px solid rgba(0,245,255,0.15)", padding: "7px 16px",
+            animation: "fade-up 0.5s ease both",
+          }}
+        >
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.2em", textTransform: "uppercase", color: CYAN }}>
+            ▶ {HERO_SLIDES[slide].label}
+          </span>
+        </div>
+
+        {/* REC */}
+        <div style={{ position: "absolute", top: "20px", right: "100px", zIndex: 6, display: "flex", alignItems: "center", gap: "6px", background: "rgba(8,12,18,0.75)", border: "1px solid rgba(0,245,255,0.12)", padding: "5px 10px", backdropFilter: "blur(6px)" }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF3B3B", animation: "pulse-border 1.5s ease infinite" }} />
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#FF6060" }}>REC</span>
         </div>
       </section>
 
