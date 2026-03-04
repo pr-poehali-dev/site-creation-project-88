@@ -163,18 +163,23 @@ export default function Index() {
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div
               style={{
-                width: "36px",
-                height: "36px",
+                width: "44px",
+                height: "44px",
                 border: `1px solid ${CYAN}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: "0 0 12px rgba(0,245,255,0.25)",
+                boxShadow: "0 0 16px rgba(0,245,255,0.3)",
                 flexShrink: 0,
                 background: "rgba(0,245,255,0.04)",
+                overflow: "hidden",
               }}
             >
-              <Icon name="Film" size={16} style={{ color: CYAN }} />
+              <img
+                src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/4086979b-b476-4b45-8428-1887096e0113.jpg"
+                alt="Manzhour-Media logo"
+                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(1.1) saturate(1.2)" }}
+              />
             </div>
             <div>
               <div
@@ -810,8 +815,8 @@ export default function Index() {
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
-              <div style={{ width: "28px", height: "28px", border: `1px solid ${CYAN}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 10px rgba(0,245,255,0.2)" }}>
-                <Icon name="Film" size={13} style={{ color: CYAN }} />
+              <div style={{ width: "32px", height: "32px", border: `1px solid ${CYAN}`, overflow: "hidden", boxShadow: "0 0 10px rgba(0,245,255,0.2)", flexShrink: 0 }}>
+                <img src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/4086979b-b476-4b45-8428-1887096e0113.jpg" alt="logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <span style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#D0F4F8" }}>Manzhour-Media</span>
             </div>
