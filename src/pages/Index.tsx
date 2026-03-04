@@ -189,7 +189,7 @@ export default function Index() {
                   textShadow: "0 0 20px rgba(0,245,255,0.3)",
                 }}
               >
-                КиноАрхив
+                Manzhour-Media
               </div>
               <div
                 style={{
@@ -201,7 +201,7 @@ export default function Index() {
                   marginTop: "2px",
                 }}
               >
-                STUDIO_SYS
+                MANZHOUR_MEDIA
               </div>
             </div>
           </div>
@@ -813,7 +813,7 @@ export default function Index() {
               <div style={{ width: "28px", height: "28px", border: `1px solid ${CYAN}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 10px rgba(0,245,255,0.2)" }}>
                 <Icon name="Film" size={13} style={{ color: CYAN }} />
               </div>
-              <span style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#D0F4F8" }}>КиноАрхив</span>
+              <span style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#D0F4F8" }}>Manzhour-Media</span>
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.8rem", lineHeight: 1.75, color: "#2A6066" }}>
               Студия визуального искусства. Создаём кино, которое остаётся в памяти.
