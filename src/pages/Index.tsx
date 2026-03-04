@@ -245,9 +245,8 @@ export default function Index() {
                 marginBottom: "24px",
               }}
             >
-              Искусство<br />
-              кинематографа<br />
-              <span style={{ fontStyle: "italic", fontWeight: 400, color: "#555" }}>в каждом кадре</span>
+              Лучше снимать,<br />
+              <span style={{ fontStyle: "italic", fontWeight: 400, color: "#555" }}>чем не снимать</span>
             </h1>
             <Rule className="anim-up d3 my-6" />
             <p
