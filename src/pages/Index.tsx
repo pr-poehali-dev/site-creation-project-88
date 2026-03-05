@@ -603,7 +603,7 @@ export default function Index() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-1">
             {[
-              { icon: "Users",    title: "Команда",       desc: "Профессионалы с многолетним опытом: режиссёры, операторы, монтажёры и продюсеры." },
+              { icon: "Users",    title: "Команда",       desc: "Профессионалы с многолетним опытом" },
             ].map((item, i) => (
               <div key={i} className="ht-card" style={{ padding: "48px 36px", background: BGCARD, border: "none", borderRadius: 0 }}>
                 <div style={{ width: "52px", height: "52px", border: `1px solid rgba(0,245,255,0.3)`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px", background: "rgba(0,245,255,0.04)" }}>
