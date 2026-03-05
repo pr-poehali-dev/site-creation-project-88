@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
 const IMG1 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/a46093ac-accf-45b0-8922-81e0427dfd5b.jpg";
@@ -87,6 +87,14 @@ export default function Index() {
   const [slide, setSlide] = useState(0);
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
+  const [lang, setLang] = useState<"RU" | "EN">("RU");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchOpen) searchRef.current?.focus();
+  }, [searchOpen]);
   const totalPages = Math.ceil(portfolio.length / ITEMS);
   const visible = portfolio.slice((page - 1) * ITEMS, page * ITEMS);
 
@@ -116,89 +124,128 @@ export default function Index() {
           position: "sticky",
           top: 0,
           zIndex: 50,
-          background: "rgba(8,12,18,0.92)",
+          background: "rgba(8,12,18,0.95)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid rgba(0,245,255,0.1)",
         }}
       >
+        {/* Top row: Logo центр + иконки справа */}
         <div
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
             padding: "0 40px",
-            height: "64px",
+            height: "60px",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            position: "relative",
           }}
         >
-          {/* Nav left */}
-          <nav className="hidden md:flex items-center gap-7" style={{ flex: 1 }}>
-            {navLinks.slice(0, navLinks.length - 1).map((l) => (
-              <a key={l} href="#" className="nav-link">{l}</a>
-            ))}
-          </nav>
-
-          {/* Logo center */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+          {/* Logo по центру */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div
               style={{
-                width: "44px",
-                height: "44px",
+                width: "42px", height: "42px",
                 border: `1px solid ${CYAN}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
                 boxShadow: "0 0 16px rgba(0,245,255,0.3)",
-                flexShrink: 0,
                 background: "rgba(0,245,255,0.04)",
                 overflow: "hidden",
+                flexShrink: 0,
               }}
             >
               <img
                 src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/8dc94a2c-b57a-4d77-8920-d8c83194df72.jpg"
-                alt="Manzhour-Media logo"
+                alt="logo"
                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(1.1) saturate(1.2)" }}
               />
             </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontWeight: 700,
-                  fontSize: "1.1rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#D0F4F8",
-                  lineHeight: 1,
-                  textShadow: "0 0 20px rgba(0,245,255,0.3)",
-                }}
-              >
-                Manzhour-Media
-              </div>
-              <div
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: "0.52rem",
-                  letterSpacing: "0.3em",
-                  color: CYAN,
-                  opacity: 0.5,
-                  marginTop: "2px",
-                }}
-              >
-                MANZHOUR_MEDIA
-              </div>
+            <div
+              style={{
+                fontFamily: "'Rajdhani', sans-serif",
+                fontWeight: 700,
+                fontSize: "1.15rem",
+                letterSpacing: "0.13em",
+                textTransform: "uppercase",
+                color: "#D0F4F8",
+                textShadow: "0 0 20px rgba(0,245,255,0.3)",
+              }}
+            >
+              Manzhour-Media
             </div>
           </div>
 
-          {/* Nav right — Контакты */}
-          <nav className="hidden md:flex items-center" style={{ flex: 1, justifyContent: "flex-end" }}>
-            <a href="#" className="nav-link">Контакты</a>
+          {/* Иконки справа: поиск + язык */}
+          <div style={{ position: "absolute", right: "40px", display: "flex", alignItems: "center", gap: "8px" }}>
+            {/* Поиск */}
+            {searchOpen ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", border: `1px solid rgba(0,245,255,0.35)`, padding: "4px 10px", background: "rgba(0,245,255,0.04)" }}>
+                <input
+                  ref={searchRef}
+                  value={searchVal}
+                  onChange={(e) => setSearchVal(e.target.value)}
+                  placeholder="Поиск..."
+                  style={{ background: "transparent", border: "none", outline: "none", fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", color: "#D0F4F8", letterSpacing: "0.05em", width: "140px" }}
+                />
+                <button onClick={() => { setSearchOpen(false); setSearchVal(""); }} style={{ background: "none", border: "none", cursor: "pointer", color: CYAN, display: "flex", padding: 0 }}>
+                  <Icon name="X" size={13} />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setSearchOpen(true)}
+                style={{ width: "32px", height: "32px", border: "1px solid rgba(0,245,255,0.2)", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 10px rgba(0,245,255,0.25)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.2)"; e.currentTarget.style.boxShadow = "none"; }}
+              >
+                <Icon name="Search" size={13} style={{ color: CYAN }} />
+              </button>
+            )}
+
+            {/* Язык */}
+            <button
+              onClick={() => setLang(l => l === "RU" ? "EN" : "RU")}
+              style={{ height: "32px", padding: "0 10px", border: "1px solid rgba(0,245,255,0.2)", background: "transparent", cursor: "pointer", fontFamily: "'Space Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.15em", color: CYAN, display: "flex", alignItems: "center", gap: "5px", transition: "all 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 10px rgba(0,245,255,0.25)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.2)"; e.currentTarget.style.boxShadow = "none"; }}
+            >
+              {lang === "RU" ? "RU" : "EN"}
+              <Icon name="ChevronDown" size={10} />
+            </button>
+
+            {/* Бургер мобайл */}
+            <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ color: CYAN, background: "none", border: "none", cursor: "pointer", display: "flex" }}>
+              <Icon name={menuOpen ? "X" : "Menu"} size={22} />
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom row: навигация */}
+        <div
+          className="hidden md:flex"
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            height: "40px",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderTop: "1px solid rgba(0,245,255,0.07)",
+          }}
+        >
+          {/* Левые пункты */}
+          <nav style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+            {["Что создаём", "Сделано", "Новости и Акции"].map((l) => (
+              <a key={l} href="#" className="nav-link" style={{ fontSize: "0.72rem" }}>{l}</a>
+            ))}
           </nav>
 
-          <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ color: CYAN }}>
-            <Icon name={menuOpen ? "X" : "Menu"} size={22} />
-          </button>
+          {/* Правые пункты */}
+          <nav style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+            {["Больше", "Контакты"].map((l) => (
+              <a key={l} href="#" className="nav-link" style={{ fontSize: "0.72rem" }}>{l}</a>
+            ))}
+          </nav>
         </div>
 
         {menuOpen && (
@@ -278,7 +325,7 @@ export default function Index() {
             {/* Slide counter */}
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
               <div style={{ width: "28px", height: "1px", background: CYAN, opacity: 0.5 }} />
-              <Tag>// ГЛАВНЫЙ ЭКРАН — {String(slide + 1).padStart(2, "0")} / {String(HERO_SLIDES.length).padStart(2, "0")}</Tag>
+              <Tag>// {String(slide + 1).padStart(2, "0")} / {String(HERO_SLIDES.length).padStart(2, "0")}</Tag>
             </div>
 
             {/* Slide sub-label */}
