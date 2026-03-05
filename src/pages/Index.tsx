@@ -19,7 +19,7 @@ const CYAN  = "#00F5FF";
 const BG    = "#080C12";
 const BGCARD= "#0C1119";
 
-const navLinks = ["Главная", "О нас", "Услуги", "Портфолио", "Отзывы", "Контакты"];
+const navLinks = ["Что создаём", "Сделано", "Новости и Акции", "Больше", "Контакты"];
 
 const services = [
   { icon: "Film",         title: "Художественное",  desc: "Полнометражные и короткометражные фильмы, авторское кино любого жанра" },
@@ -110,33 +110,6 @@ export default function Index() {
       {/* scan line fx */}
       <div className="scan-fx" />
 
-      {/* ── TOP BAR ── */}
-      <div
-        style={{
-          background: BGCARD,
-          borderBottom: "1px solid rgba(0,245,255,0.1)",
-          padding: "7px 40px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Tag>// система управления контентом v2.4.1</Tag>
-        <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
-          <Tag>ПН–ПТ 10:00–19:00</Tag>
-          <span
-            style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "0.65rem",
-              letterSpacing: "0.14em",
-              color: CYAN,
-            }}
-          >
-            +7 (495) 456-78-90
-          </span>
-        </div>
-      </div>
-
       {/* ── NAVBAR ── */}
       <header
         style={{
@@ -159,8 +132,15 @@ export default function Index() {
             justifyContent: "space-between",
           }}
         >
-          {/* Logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Nav left */}
+          <nav className="hidden md:flex items-center gap-7" style={{ flex: 1 }}>
+            {navLinks.slice(0, navLinks.length - 1).map((l) => (
+              <a key={l} href="#" className="nav-link">{l}</a>
+            ))}
+          </nav>
+
+          {/* Logo center */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
             <div
               style={{
                 width: "44px",
@@ -176,7 +156,7 @@ export default function Index() {
               }}
             >
               <img
-                src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/4086979b-b476-4b45-8428-1887096e0113.jpg"
+                src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/8dc94a2c-b57a-4d77-8920-d8c83194df72.jpg"
                 alt="Manzhour-Media logo"
                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(1.1) saturate(1.2)" }}
               />
@@ -211,38 +191,10 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Nav */}
-          <nav className="hidden md:flex items-center gap-7">
-            {navLinks.map((l) => (
-              <a key={l} href="#" className="nav-link">{l}</a>
-            ))}
+          {/* Nav right — Контакты */}
+          <nav className="hidden md:flex items-center" style={{ flex: 1, justifyContent: "flex-end" }}>
+            <a href="#" className="nav-link">Контакты</a>
           </nav>
-
-          {/* Phone */}
-          <div className="hidden md:flex items-center gap-2">
-            <div
-              style={{
-                width: "28px",
-                height: "28px",
-                border: "1px solid rgba(0,245,255,0.25)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="Phone" size={12} style={{ color: CYAN }} />
-            </div>
-            <span
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "0.72rem",
-                letterSpacing: "0.08em",
-                color: CYAN,
-              }}
-            >
-              +7 (495) 456-78-90
-            </span>
-          </div>
 
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ color: CYAN }}>
             <Icon name={menuOpen ? "X" : "Menu"} size={22} />
@@ -495,68 +447,11 @@ export default function Index() {
       </section>
 
       {/* ══════════════════════════
-          О ПРОЕКТЕ
-      ══════════════════════════ */}
-      <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[02]" label="— О проекте" title="Наша история" />
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2px",
-              background: "rgba(0,245,255,0.07)",
-              border: "1px solid rgba(0,245,255,0.1)",
-            }}
-            className="max-md:grid-cols-1"
-          >
-            <div style={{ position: "relative", minHeight: "380px", overflow: "hidden", background: BGCARD }}>
-              <img
-                src={IMG2}
-                alt="О студии"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "brightness(0.55) saturate(0.5) hue-rotate(160deg)" }}
-              />
-              <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px)", backgroundSize: "24px 24px" }} />
-            </div>
-
-            <div style={{ padding: "52px 48px", background: BGCARD }}>
-              <blockquote
-                style={{
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: "1.3rem",
-                  lineHeight: 1.6,
-                  color: CYAN,
-                  borderLeft: `2px solid ${CYAN}`,
-                  paddingLeft: "20px",
-                  marginBottom: "28px",
-                  textShadow: "0 0 20px rgba(0,245,255,0.2)",
-                }}
-              >
-                «Кино — это зеркало эпохи, запечатлённое в свете и тени»
-              </blockquote>
-              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.9rem", lineHeight: 1.85, color: "#4A8A90", marginBottom: "18px" }}>
-                Студия основана в 2015 году профессиональными кинематографистами с опытом более 20 лет. Мы создаём художественные и документальные фильмы, рекламные ролики и храним богатый архив кинопроектов.
-              </p>
-              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.9rem", lineHeight: 1.85, color: "#4A8A90", marginBottom: "36px" }}>
-                В нашем архиве собраны материалы более 200 проектов — от авторского кино до масштабных коммерческих работ.
-              </p>
-              <button className="btn-primary">
-                Читать подробнее <Icon name="ArrowRight" size={14} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════
-          УСЛУГИ
+          ЧТО СОЗДАЁМ
       ══════════════════════════ */}
       <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)", background: BGCARD }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[03]" label="— Наши услуги" title="Что мы создаём" />
+          <SectionHead id="[02]" label="— Что создаём" title="Что мы создаём" />
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
             {services.map((s, i) => (
@@ -614,9 +509,9 @@ export default function Index() {
       <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
           <SectionHead
-            id="[04]"
+            id="[03]"
             label="— Архив проектов"
-            title="Портфолио"
+            title="Сделано"
             action={<button className="btn-outline" style={{ fontSize: "0.72rem", padding: "8px 18px" }}>Весь архив</button>}
           />
 
@@ -688,22 +583,57 @@ export default function Index() {
       </section>
 
       {/* ══════════════════════════
-          ОТЗЫВЫ
+          НОВОСТИ И АКЦИИ
       ══════════════════════════ */}
       <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)", background: BGCARD }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[05]" label="— Отзывы" title="Что говорят клиенты" />
+          <SectionHead id="[04]" label="— Новости и Акции" title="Последние новости" />
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-1">
-            {reviews.map((r, i) => (
+            {[
+              { tag: "НОВОСТЬ", date: "15 февраля 2026", title: "Премьера нового документального фильма", desc: "Студия Manzhour-Media объявляет о выходе долгожданного документального проекта о кинематографе 70-х." },
+              { tag: "АКЦИЯ",   date: "01 марта 2026",   title: "Скидка 20% на постпродакшн в марте",    desc: "Специальное предложение для новых клиентов — профессиональный монтаж и цветокоррекция со скидкой." },
+              { tag: "НОВОСТЬ", date: "28 февраля 2026",  title: "Участие в международном кинофестивале", desc: "Наши работы вошли в официальную программу фестиваля визуального искусства в Берлине." },
+            ].map((n, i) => (
               <div key={i} className="ht-card" style={{ padding: "36px 32px", background: BG, border: "none", borderRadius: 0 }}>
-                <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "4rem", lineHeight: 1, color: CYAN, opacity: 0.25, marginBottom: "8px" }}>"</div>
-                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.88rem", lineHeight: 1.8, color: "#3A7A80", marginBottom: "28px" }}>{r.text}</p>
-                <Rule />
-                <div style={{ marginTop: "16px" }}>
-                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: "0.9rem", letterSpacing: "0.08em", color: "#D0F4F8", textTransform: "uppercase" }}>{r.name}</div>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.12em", color: "#2A7080", marginTop: "3px" }}>{r.role}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                  <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: n.tag === "АКЦИЯ" ? "#FF9900" : CYAN, border: `1px solid ${n.tag === "АКЦИЯ" ? "#FF9900" : CYAN}`, padding: "3px 8px", opacity: 0.85 }}>{n.tag}</span>
+                  <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.1em", color: "#2A7080" }}>{n.date}</span>
                 </div>
+                <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: "1rem", letterSpacing: "0.06em", color: "#D0F4F8", textTransform: "uppercase", marginBottom: "12px", lineHeight: 1.3 }}>{n.title}</h3>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.85rem", lineHeight: 1.75, color: "#3A7A80", marginBottom: "24px" }}>{n.desc}</p>
+                <Rule />
+                <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "6px", fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#1A5A60", cursor: "pointer", transition: "color 0.2s" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = CYAN)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#1A5A60")}
+                >
+                  ЧИТАТЬ ДАЛЕЕ <Icon name="ArrowRight" size={11} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════
+          БОЛЬШЕ
+      ══════════════════════════ */}
+      <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <SectionHead id="[05]" label="— Больше" title="Узнайте больше о нас" />
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-1">
+            {[
+              { icon: "Award",    title: "Награды",      desc: "Более 50 наград на международных и российских кинофестивалях за 20 лет работы студии." },
+              { icon: "Users",    title: "Команда",       desc: "Профессионалы с многолетним опытом: режиссёры, операторы, монтажёры и продюсеры." },
+              { icon: "Archive",  title: "Архив",         desc: "Богатый архив из 200+ проектов — от авторского кино до масштабных коммерческих работ." },
+            ].map((item, i) => (
+              <div key={i} className="ht-card" style={{ padding: "48px 36px", background: BGCARD, border: "none", borderRadius: 0 }}>
+                <div style={{ width: "52px", height: "52px", border: `1px solid rgba(0,245,255,0.3)`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px", background: "rgba(0,245,255,0.04)" }}>
+                  <Icon name={item.icon} size={22} style={{ color: CYAN }} />
+                </div>
+                <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: "1rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#D0F4F8", marginBottom: "12px" }}>{item.title}</h3>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.85rem", lineHeight: 1.75, color: "#3A7A80" }}>{item.desc}</p>
               </div>
             ))}
           </div>
@@ -715,7 +645,7 @@ export default function Index() {
       ══════════════════════════ */}
       <section style={{ padding: "96px 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[06]" label="— Контакты" title="Свяжитесь с нами" />
+          <SectionHead id="[06]" label="— Контакты" title="Контакты" />
 
           <div
             style={{
