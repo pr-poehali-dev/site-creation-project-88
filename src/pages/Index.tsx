@@ -567,13 +567,13 @@ export default function Index() {
       ══════════════════════════ */}
       <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)", background: BGCARD }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[04]" label="— Новости и Акции" title="Последние новости" />
+          <SectionHead id="[04]" label="— Новости и Акции" title="Новости" />
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-1">
             {[
-              { tag: "НОВОСТЬ", date: "15 февраля 2026", title: "Премьера нового документального фильма", desc: "Студия Manzhour-Media объявляет о выходе долгожданного документального проекта о кинематографе 70-х." },
+              { tag: "НОВОСТЬ", date: "15 февраля 2026", title: "Добавляем", desc: "Добавляем" },
               { tag: "АКЦИЯ",   date: "01 марта 2026",   title: "Скидка 20% на постпродакшн в марте",    desc: "Специальное предложение для новых клиентов — профессиональный монтаж и цветокоррекция со скидкой." },
-              { tag: "НОВОСТЬ", date: "28 февраля 2026",  title: "Участие в международном кинофестивале", desc: "Наши работы вошли в официальную программу фестиваля визуального искусства в Берлине." },
+              { tag: "НОВОСТЬ", date: "28 февраля 2026",  title: "Добавляем", desc: "Добавляем" },
             ].map((n, i) => (
               <div key={i} className="ht-card" style={{ padding: "36px 32px", background: BG, border: "none", borderRadius: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
