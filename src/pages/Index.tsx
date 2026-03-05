@@ -88,7 +88,7 @@ export default function Index() {
   const [page, setPage] = useState(1);
   const [svcIdx, setSvcIdx] = useState(0);
   const SVC_PER_PAGE = 4;
-  const svcTotal = Math.ceil(services.length / SVC_PER_PAGE);
+  const svcTotal = services.length - SVC_PER_PAGE + 1;
   const [slide, setSlide] = useState(0);
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -476,9 +476,9 @@ export default function Index() {
 
           <div style={{ position: "relative" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
-              {services.slice(svcIdx * SVC_PER_PAGE, svcIdx * SVC_PER_PAGE + SVC_PER_PAGE).map((s, i) => (
+              {services.slice(svcIdx, svcIdx + SVC_PER_PAGE).map((s, i) => (
                 <div
-                  key={svcIdx * SVC_PER_PAGE + i}
+                  key={svcIdx + i}
                   className="ht-card"
                   style={{ padding: "36px 28px 32px", background: BG, borderRadius: 0, border: "none" }}
                 >
@@ -560,14 +560,14 @@ export default function Index() {
                 </button>
                 <button
                   onClick={() => setSvcIdx(i => Math.min(svcTotal - 1, i + 1))}
-                  disabled={svcIdx === svcTotal - 1}
+                  disabled={svcIdx >= svcTotal - 1}
                   style={{
                     width: "36px", height: "36px",
-                    border: `1px solid rgba(0,245,255,${svcIdx === svcTotal - 1 ? "0.1" : "0.35"})`,
+                    border: `1px solid rgba(0,245,255,${svcIdx >= svcTotal - 1 ? "0.1" : "0.35"})`,
                     background: "transparent",
-                    cursor: svcIdx === svcTotal - 1 ? "default" : "pointer",
+                    cursor: svcIdx >= svcTotal - 1 ? "default" : "pointer",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    color: svcIdx === svcTotal - 1 ? "rgba(0,245,255,0.2)" : CYAN,
+                    color: svcIdx >= svcTotal - 1 ? "rgba(0,245,255,0.2)" : CYAN,
                     transition: "all 0.2s",
                   }}
                 >
