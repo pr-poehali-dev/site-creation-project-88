@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Icon from "@/components/ui/icon";
 import WordSphere from "@/components/WordSphere";
 
@@ -87,20 +87,13 @@ export default function Index() {
   const [slide, setSlide] = useState(0);
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [lang, setLang] = useState<"RU" | "EN">("RU");
   const [wordIdx, setWordIdx] = useState(0);
   const WORDS_CYCLE = ["Снимаем", "Выстраиваем", "Реализуем", "Совершенствуем", "Привлекаем"];
   useEffect(() => {
     const t = setInterval(() => setWordIdx(i => (i + 1) % WORDS_CYCLE.length), 2200);
     return () => clearInterval(t);
   }, []);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchVal, setSearchVal] = useState("");
-  const searchRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (searchOpen) searchRef.current?.focus();
-  }, [searchOpen]);
   const totalPages = Math.ceil(portfolio.length / ITEMS);
   const visible = portfolio.slice((page - 1) * ITEMS, page * ITEMS);
 
@@ -181,44 +174,7 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Иконки справа: поиск + язык */}
-          <div style={{ position: "absolute", right: "40px", display: "flex", alignItems: "center", gap: "8px" }}>
-            {/* Поиск */}
-            {searchOpen ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", border: `1px solid rgba(0,245,255,0.35)`, padding: "4px 10px", background: "rgba(0,245,255,0.04)" }}>
-                <input
-                  ref={searchRef}
-                  value={searchVal}
-                  onChange={(e) => setSearchVal(e.target.value)}
-                  placeholder="Поиск..."
-                  style={{ background: "transparent", border: "none", outline: "none", fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", color: "#D0F4F8", letterSpacing: "0.05em", width: "140px" }}
-                />
-                <button onClick={() => { setSearchOpen(false); setSearchVal(""); }} style={{ background: "none", border: "none", cursor: "pointer", color: CYAN, display: "flex", padding: 0 }}>
-                  <Icon name="X" size={13} />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setSearchOpen(true)}
-                style={{ background: "none", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: "4px", transition: "opacity 0.2s", opacity: 0.65 }}
-                onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.65"; }}
-              >
-                <Icon name="Search" size={16} style={{ color: CYAN }} />
-              </button>
-            )}
 
-            {/* Язык */}
-            <button
-              onClick={() => setLang(l => l === "RU" ? "EN" : "RU")}
-              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'Space Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.15em", color: CYAN, display: "flex", alignItems: "center", gap: "4px", padding: "4px 2px", opacity: 0.65, transition: "opacity 0.2s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.65"; }}
-            >
-              {lang === "RU" ? "RU" : "EN"}
-              <Icon name="ChevronDown" size={10} />
-            </button>
-          </div>
         </div>
 
         {/* Bottom row: навигация */}
