@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Icon from "@/components/ui/icon";
+import WordSphere from "@/components/WordSphere";
 
 const IMG1 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/a46093ac-accf-45b0-8922-81e0427dfd5b.jpg";
 const IMG2 = "https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/3553e3d6-6071-4d25-9cb7-7a465983eb0e.jpg";
@@ -83,7 +84,6 @@ const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
   const [page, setPage] = useState(1);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -194,28 +194,23 @@ export default function Index() {
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                style={{ width: "32px", height: "32px", border: "1px solid rgba(0,245,255,0.2)", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 10px rgba(0,245,255,0.25)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.2)"; e.currentTarget.style.boxShadow = "none"; }}
+                style={{ background: "none", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: "4px", transition: "opacity 0.2s", opacity: 0.65 }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.65"; }}
               >
-                <Icon name="Search" size={13} style={{ color: CYAN }} />
+                <Icon name="Search" size={16} style={{ color: CYAN }} />
               </button>
             )}
 
             {/* Язык */}
             <button
               onClick={() => setLang(l => l === "RU" ? "EN" : "RU")}
-              style={{ height: "32px", padding: "0 10px", border: "1px solid rgba(0,245,255,0.2)", background: "transparent", cursor: "pointer", fontFamily: "'Space Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.15em", color: CYAN, display: "flex", alignItems: "center", gap: "5px", transition: "all 0.2s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = CYAN; e.currentTarget.style.boxShadow = "0 0 10px rgba(0,245,255,0.25)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,245,255,0.2)"; e.currentTarget.style.boxShadow = "none"; }}
+              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'Space Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.15em", color: CYAN, display: "flex", alignItems: "center", gap: "4px", padding: "4px 2px", opacity: 0.65, transition: "opacity 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.65"; }}
             >
               {lang === "RU" ? "RU" : "EN"}
               <Icon name="ChevronDown" size={10} />
-            </button>
-
-            {/* Бургер мобайл */}
-            <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ color: CYAN, background: "none", border: "none", cursor: "pointer", display: "flex" }}>
-              <Icon name={menuOpen ? "X" : "Menu"} size={22} />
             </button>
           </div>
         </div>
@@ -248,16 +243,6 @@ export default function Index() {
           </nav>
         </div>
 
-        {menuOpen && (
-          <div
-            style={{ background: BGCARD, borderTop: "1px solid rgba(0,245,255,0.1)", padding: "16px 40px" }}
-            className="flex flex-col gap-4"
-          >
-            {navLinks.map((l) => (
-              <a key={l} href="#" className="nav-link py-1" onClick={() => setMenuOpen(false)}>{l}</a>
-            ))}
-          </div>
-        )}
       </header>
 
       {/* ══════════════════════════
@@ -319,9 +304,11 @@ export default function Index() {
             display: "flex", alignItems: "center",
             maxWidth: "1280px", margin: "0 auto", padding: "0 40px", width: "100%",
             left: "50%", transform: "translateX(-50%)",
+            gap: "0",
           }}
         >
-          <div style={{ maxWidth: "620px" }}>
+          {/* LEFT — text */}
+          <div style={{ flex: "0 0 auto", maxWidth: "520px", zIndex: 2 }}>
             {/* Slide counter */}
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
               <div style={{ width: "28px", height: "1px", background: CYAN, opacity: 0.5 }} />
@@ -349,7 +336,7 @@ export default function Index() {
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 700,
-                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
+                fontSize: "clamp(2.4rem, 5.5vw, 4.8rem)",
                 lineHeight: 1.0,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
@@ -365,35 +352,35 @@ export default function Index() {
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 300,
                 fontStyle: "italic",
-                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
+                fontSize: "clamp(2.4rem, 5.5vw, 4.8rem)",
                 lineHeight: 1.0,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: CYAN,
-                marginBottom: "28px",
+                marginBottom: "24px",
                 textShadow: "0 0 40px rgba(0,245,255,0.5)",
               }}
             >
               чем не снимать
             </h1>
 
-            <div style={{ width: "60px", height: "1px", background: CYAN, opacity: 0.4, marginBottom: "24px" }} />
+            <div style={{ width: "60px", height: "1px", background: CYAN, opacity: 0.4, marginBottom: "20px" }} />
 
             <p
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 300,
-                fontSize: "1rem",
+                fontSize: "0.92rem",
                 lineHeight: 1.8,
                 color: "#5A9AA0",
-                maxWidth: "480px",
-                marginBottom: "36px",
+                maxWidth: "420px",
+                marginBottom: "28px",
               }}
             >
               Студия визуального искусства. Создаём художественные и документальные фильмы, храним архив кинопроектов и развиваем культуру кинематографии.
             </p>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "52px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "36px" }}>
               <button className="btn-primary">
                 Смотреть архив <Icon name="ArrowRight" size={14} />
               </button>
@@ -401,14 +388,27 @@ export default function Index() {
             </div>
 
             {/* Stats */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", border: "1px solid rgba(0,245,255,0.12)", maxWidth: "380px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", border: "1px solid rgba(0,245,255,0.12)", maxWidth: "340px" }}>
               {[["200+", "Проектов"], ["20+", "Лет опыта"], ["50+", "Наград"]].map(([n, l], i) => (
-                <div key={l} style={{ padding: "14px 18px", borderRight: i < 2 ? "1px solid rgba(0,245,255,0.12)" : "none", background: "rgba(8,12,18,0.5)", backdropFilter: "blur(8px)" }}>
-                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "1.6rem", color: CYAN, textShadow: "0 0 16px rgba(0,245,255,0.5)", lineHeight: 1 }}>{n}</div>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#2A7080", marginTop: "3px" }}>{l}</div>
+                <div key={l} style={{ padding: "12px 16px", borderRight: i < 2 ? "1px solid rgba(0,245,255,0.12)" : "none", background: "rgba(8,12,18,0.5)", backdropFilter: "blur(8px)" }}>
+                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "1.4rem", color: CYAN, textShadow: "0 0 16px rgba(0,245,255,0.5)", lineHeight: 1 }}>{n}</div>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#2A7080", marginTop: "3px" }}>{l}</div>
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* RIGHT — 3D word sphere */}
+          <div
+            className="hidden md:block"
+            style={{
+              flex: 1,
+              height: "100%",
+              minHeight: "420px",
+              position: "relative",
+            }}
+          >
+            <WordSphere />
           </div>
         </div>
 
@@ -580,9 +580,7 @@ export default function Index() {
                     }}
                   />
                   <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(0,245,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.03) 1px,transparent 1px)", backgroundSize: "20px 20px", pointerEvents: "none" }} />
-                  <div style={{ position: "absolute", top: "10px", right: "10px", background: "rgba(8,12,18,0.85)", border: "1px solid rgba(0,245,255,0.2)", padding: "3px 8px" }}>
-                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.58rem", color: CYAN, letterSpacing: "0.12em" }}>{item.year}</span>
-                  </div>
+
                   {/* play overlay */}
                   <div
                     style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", opacity: 0, transition: "opacity 0.3s", background: "rgba(0,245,255,0.04)" }}
@@ -645,7 +643,6 @@ export default function Index() {
               <div key={i} className="ht-card" style={{ padding: "36px 32px", background: BG, border: "none", borderRadius: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
                   <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: n.tag === "АКЦИЯ" ? "#FF9900" : CYAN, border: `1px solid ${n.tag === "АКЦИЯ" ? "#FF9900" : CYAN}`, padding: "3px 8px", opacity: 0.85 }}>{n.tag}</span>
-                  <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.1em", color: "#2A7080" }}>{n.date}</span>
                 </div>
                 <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: "1rem", letterSpacing: "0.06em", color: "#D0F4F8", textTransform: "uppercase", marginBottom: "12px", lineHeight: 1.3 }}>{n.title}</h3>
                 <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.85rem", lineHeight: 1.75, color: "#3A7A80", marginBottom: "24px" }}>{n.desc}</p>
@@ -829,7 +826,7 @@ export default function Index() {
 
         <div style={{ borderTop: "1px solid rgba(0,245,255,0.07)", maxWidth: "1280px", margin: "0 auto", padding: "18px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
           <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.14em", color: "#1A4A50" }}>
-            © 2024 КИНОАРХИВ — ALL RIGHTS RESERVED
+            © MANZHOUR-MEDIA — ALL RIGHTS RESERVED
           </span>
           <div style={{ display: "flex", gap: "8px" }}>
             {["Instagram", "Youtube", "Send"].map((ic) => (
