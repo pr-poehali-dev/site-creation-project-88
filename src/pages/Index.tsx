@@ -467,7 +467,7 @@ export default function Index() {
       ══════════════════════════ */}
       <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(0,245,255,0.08)", background: BGCARD }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <SectionHead id="[02]" label="— Что создаём" title="Что мы создаём" />
+          <SectionHead id="[02]" label="— Сейчас в работе" title="Сейчас в работе" />
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
             {services.map((s, i) => (
