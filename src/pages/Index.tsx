@@ -27,6 +27,8 @@ const services = [
   { icon: "Video",        title: "Строительство апартаментов", desc: "Санаторий профилакторий на краю леса с видом на море в Приморском крае" },
   { icon: "Camera",       title: "Эко-ферма",        desc: "Фермерское предприятие, объединяющее консорциум производителей Дальнего Востока" },
   { icon: "Clapperboard", title: "Логистика севера", desc: "Логистические цепочки по территориям крайнего севера" },
+  { icon: "Leaf",         title: "Рыбный кластер",  desc: "Развитие рыбоперерабатывающего кластера Приморского края с выходом на экспортные рынки АТР" },
+  { icon: "Globe",        title: "Цифровой регион",  desc: "Цифровая трансформация муниципального управления и сервисов для жителей дальневосточных территорий" },
 ];
 
 const portfolio = [
@@ -84,6 +86,9 @@ const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
   const [page, setPage] = useState(1);
+  const [svcIdx, setSvcIdx] = useState(0);
+  const SVC_PER_PAGE = 4;
+  const svcTotal = Math.ceil(services.length / SVC_PER_PAGE);
   const [slide, setSlide] = useState(0);
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -469,52 +474,107 @@ export default function Index() {
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
           <SectionHead id="[02]" label="— Сейчас в работе" title="Сейчас в работе" />
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
-            {services.map((s, i) => (
-              <div
-                key={i}
-                className="ht-card"
-                style={{ padding: "36px 28px 32px", background: BG, borderRadius: 0, border: "none" }}
-              >
+          <div style={{ position: "relative" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "2px", background: "rgba(0,245,255,0.07)" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
+              {services.slice(svcIdx * SVC_PER_PAGE, svcIdx * SVC_PER_PAGE + SVC_PER_PAGE).map((s, i) => (
                 <div
-                  style={{
-                    width: "44px",
-                    height: "44px",
-                    border: `1px solid rgba(0,245,255,0.3)`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "20px",
-                    background: "rgba(0,245,255,0.04)",
-                  }}
+                  key={svcIdx * SVC_PER_PAGE + i}
+                  className="ht-card"
+                  style={{ padding: "36px 28px 32px", background: BG, borderRadius: 0, border: "none" }}
                 >
-                  <Icon name={s.icon} size={18} style={{ color: CYAN }} />
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      border: `1px solid rgba(0,245,255,0.3)`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "20px",
+                      background: "rgba(0,245,255,0.04)",
+                    }}
+                  >
+                    <Icon name={s.icon} size={18} style={{ color: CYAN }} />
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontWeight: 600,
+                      fontSize: "0.92rem",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#D0F4F8",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.82rem", lineHeight: 1.7, color: "#3A7A80", marginBottom: "24px" }}>
+                    {s.desc}
+                  </p>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: "6px", fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#1A5A60", cursor: "pointer", transition: "color 0.2s" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = CYAN)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#1A5A60")}
+                  >
+                    ПОДРОБНЕЕ <Icon name="ArrowRight" size={11} />
+                  </div>
                 </div>
-                <h3
-                  style={{
-                    fontFamily: "'Rajdhani', sans-serif",
-                    fontWeight: 600,
-                    fontSize: "0.92rem",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "#D0F4F8",
-                    marginBottom: "10px",
-                  }}
-                >
-                  {s.title}
-                </h3>
-                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.82rem", lineHeight: 1.7, color: "#3A7A80", marginBottom: "24px" }}>
-                  {s.desc}
-                </p>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "6px", fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#1A5A60", cursor: "pointer", transition: "color 0.2s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = CYAN)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#1A5A60")}
-                >
-                  ПОДРОБНЕЕ <Icon name="ArrowRight" size={11} />
-                </div>
+              ))}
+            </div>
+
+            {/* Навигация карусели */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "24px" }}>
+              <div style={{ display: "flex", gap: "8px" }}>
+                {Array.from({ length: svcTotal }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSvcIdx(i)}
+                    style={{
+                      width: i === svcIdx ? "24px" : "8px",
+                      height: "2px",
+                      background: i === svcIdx ? CYAN : "rgba(0,245,255,0.25)",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.3s",
+                      padding: 0,
+                    }}
+                  />
+                ))}
               </div>
-            ))}
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  onClick={() => setSvcIdx(i => Math.max(0, i - 1))}
+                  disabled={svcIdx === 0}
+                  style={{
+                    width: "36px", height: "36px",
+                    border: `1px solid rgba(0,245,255,${svcIdx === 0 ? "0.1" : "0.35"})`,
+                    background: "transparent",
+                    cursor: svcIdx === 0 ? "default" : "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: svcIdx === 0 ? "rgba(0,245,255,0.2)" : CYAN,
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <Icon name="ChevronLeft" size={16} />
+                </button>
+                <button
+                  onClick={() => setSvcIdx(i => Math.min(svcTotal - 1, i + 1))}
+                  disabled={svcIdx === svcTotal - 1}
+                  style={{
+                    width: "36px", height: "36px",
+                    border: `1px solid rgba(0,245,255,${svcIdx === svcTotal - 1 ? "0.1" : "0.35"})`,
+                    background: "transparent",
+                    cursor: svcIdx === svcTotal - 1 ? "default" : "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: svcIdx === svcTotal - 1 ? "rgba(0,245,255,0.2)" : CYAN,
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <Icon name="ChevronRight" size={16} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
