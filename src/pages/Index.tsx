@@ -31,24 +31,13 @@ const services = [
   { icon: "Globe",        title: 'Бренд "ЧАО"',      desc: "Уникальная разработка прототипов одежды под заказ" },
 ];
 
-const portfolio = [
-  { year: "2024", title: "Ночной Дозор",   genre: "Художественный",   img: IMG1 },
-  { year: "2023", title: "Последний Рейс", genre: "Документальный",   img: IMG2 },
-  { year: "2023", title: "Тени Прошлого",  genre: "Короткометражный", img: IMG3 },
-  { year: "2022", title: "Горизонт",       genre: "Художественный",   img: IMG1 },
-  { year: "2022", title: "Память Земли",   genre: "Документальный",   img: IMG2 },
-  { year: "2021", title: "Новый Свет",     genre: "Короткометражный", img: IMG3 },
-  { year: "2021", title: "Вечер в Москве", genre: "Рекламный",        img: IMG1 },
-  { year: "2020", title: "Путь домой",     genre: "Художественный",   img: IMG2 },
-];
-
 const reviews = [
   { name: "Иван Петров",    role: "Продюсер",           text: "Команда студии создала для нас невероятный документальный фильм. Профессионализм на высшем уровне." },
   { name: "Анна Смирнова",  role: "Режиссёр",           text: "Работать с этой студией — настоящее удовольствие. Архив проектов впечатляет — за каждым кадром стоит история." },
   { name: "Дмитрий Козлов", role: "Маркетинг-директор", text: "Рекламный ролик превзошёл все ожидания. Мы пересматривали его ещё на стадии монтажа — редкое качество." },
 ];
 
-const ITEMS = 4;
+
 
 /* ─ tiny helpers ─ */
 const Tag = ({ children }: { children: React.ReactNode }) => (
@@ -85,7 +74,6 @@ const SectionHead = ({
 const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
-  const [page, setPage] = useState(1);
   const [svcIdx, setSvcIdx] = useState(0);
   const SVC_PER_PAGE = 4;
   const svcTotal = services.length - SVC_PER_PAGE + 1;
@@ -99,8 +87,7 @@ export default function Index() {
     return () => clearInterval(t);
   }, []);
 
-  const totalPages = Math.ceil(portfolio.length / ITEMS);
-  const visible = portfolio.slice((page - 1) * ITEMS, page * ITEMS);
+
 
   const goTo = useCallback((idx: number, dir: "next" | "prev" = "next") => {
     if (isAnimating) return;
@@ -571,68 +558,7 @@ export default function Index() {
             action={<button className="btn-outline" style={{ fontSize: "0.72rem", padding: "8px 18px" }}>Весь архив</button>}
           />
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "12px" }} className="max-md:grid-cols-2 max-sm:grid-cols-1">
-            {visible.map((item, i) => (
-              <div key={i} className="ht-card">
-                <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3/4" }}>
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.5s ease, filter 0.4s ease", filter: "brightness(0.5) saturate(0.4) hue-rotate(165deg)" }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "scale(1.06)";
-                      e.currentTarget.style.filter = "brightness(0.65) saturate(0.6) hue-rotate(165deg)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
-                      e.currentTarget.style.filter = "brightness(0.5) saturate(0.4) hue-rotate(165deg)";
-                    }}
-                  />
-                  <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(0,245,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.03) 1px,transparent 1px)", backgroundSize: "20px 20px", pointerEvents: "none" }} />
 
-                  {/* play overlay */}
-                  <div
-                    style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", opacity: 0, transition: "opacity 0.3s", background: "rgba(0,245,255,0.04)" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "0")}
-                  >
-                    <div style={{ width: "44px", height: "44px", border: `1.5px solid ${CYAN}`, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 24px rgba(0,245,255,0.4)", background: "rgba(0,245,255,0.1)" }}>
-                      <Icon name="Play" size={16} style={{ color: CYAN, marginLeft: "2px" }} />
-                    </div>
-                  </div>
-                </div>
-                <div style={{ padding: "14px 16px 16px", borderTop: "1px solid rgba(0,245,255,0.08)" }}>
-                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: "0.9rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "#D0F4F8", marginBottom: "4px" }}>{item.title}</div>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.12em", color: "#2A7080" }}>{item.genre}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Pagination */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "36px" }}>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-              <button
-                key={p}
-                onClick={() => setPage(p)}
-                style={{
-                  width: "34px",
-                  height: "34px",
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: "0.72rem",
-                  background: p === page ? CYAN : "transparent",
-                  color: p === page ? BG : "#2A7080",
-                  border: "1px solid " + (p === page ? CYAN : "rgba(0,245,255,0.15)"),
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  boxShadow: p === page ? "0 0 16px rgba(0,245,255,0.4)" : "none",
-                }}
-              >
-                {p}
-              </button>
-            ))}
-            <button style={{ height: "34px", padding: "0 10px", fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", background: "transparent", color: "#2A7080", border: "1px solid rgba(0,245,255,0.15)", cursor: "pointer" }}>…</button>
-          </div>
         </div>
       </section>
 
