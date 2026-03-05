@@ -89,7 +89,7 @@ export default function Index() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [lang, setLang] = useState<"RU" | "EN">("RU");
   const [wordIdx, setWordIdx] = useState(0);
-  const WORDS_CYCLE = ["Снимаем", "Выстраиваем", "Реализуем", "Удерживаем", "Привлекаем"];
+  const WORDS_CYCLE = ["Снимаем", "Выстраиваем", "Реализуем", "Улучшаем", "Привлекаем"];
   useEffect(() => {
     const t = setInterval(() => setWordIdx(i => (i + 1) % WORDS_CYCLE.length), 2200);
     return () => clearInterval(t);
@@ -355,7 +355,6 @@ export default function Index() {
                 flexWrap: "wrap",
               }}
             >
-              <span style={{ color: "#D0F4F8", fontWeight: 700 }}>Мы</span>
               <span
                 key={wordIdx}
                 style={{
