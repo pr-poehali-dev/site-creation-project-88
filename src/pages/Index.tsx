@@ -246,6 +246,14 @@ export default function Index() {
             {["Больше", "Контакты"].map((l) => (
               <a key={l} href="#" className="nav-link" style={{ fontSize: "0.72rem" }}>{l}</a>
             ))}
+            <button style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#00F5FF", display: "flex", alignItems: "center" }}>
+              <Icon name="Search" size={14} />
+            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "0.72rem" }}>
+              <button className="nav-link" style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontWeight: 600, color: "#00F5FF", fontSize: "0.72rem" }}>RU</button>
+              <span style={{ color: "rgba(0,245,255,0.3)" }}>/</span>
+              <button className="nav-link" style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: "0.72rem" }}>EN</button>
+            </div>
           </nav>
         </div>
 
