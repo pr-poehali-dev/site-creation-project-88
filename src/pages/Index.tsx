@@ -482,20 +482,6 @@ export default function Index() {
                   className="ht-card"
                   style={{ padding: "36px 28px 32px", background: BG, borderRadius: 0, border: "none" }}
                 >
-                  <div
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      border: `1px solid rgba(0,245,255,0.3)`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "20px",
-                      background: "rgba(0,245,255,0.04)",
-                    }}
-                  >
-                    <Icon name={s.icon} size={18} style={{ color: CYAN }} />
-                  </div>
                   <h3
                     style={{
                       fontFamily: "'Rajdhani', sans-serif",
@@ -524,7 +510,20 @@ export default function Index() {
             </div>
 
             {/* Навигация карусели */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "24px" }}>
+              <button
+                onClick={() => setSvcIdx(i => Math.max(0, i - 1))}
+                disabled={svcIdx === 0}
+                style={{
+                  background: "none", border: "none",
+                  cursor: svcIdx === 0 ? "default" : "pointer",
+                  color: svcIdx === 0 ? "rgba(0,245,255,0.2)" : CYAN,
+                  display: "flex", alignItems: "center",
+                  transition: "all 0.2s", padding: 0,
+                }}
+              >
+                <Icon name="ChevronLeft" size={22} />
+              </button>
               <div style={{ display: "flex", gap: "8px" }}>
                 {Array.from({ length: svcTotal }).map((_, i) => (
                   <button
@@ -542,38 +541,19 @@ export default function Index() {
                   />
                 ))}
               </div>
-              <div style={{ display: "flex", gap: "8px" }}>
-                <button
-                  onClick={() => setSvcIdx(i => Math.max(0, i - 1))}
-                  disabled={svcIdx === 0}
-                  style={{
-                    width: "36px", height: "36px",
-                    border: `1px solid rgba(0,245,255,${svcIdx === 0 ? "0.1" : "0.35"})`,
-                    background: "transparent",
-                    cursor: svcIdx === 0 ? "default" : "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: svcIdx === 0 ? "rgba(0,245,255,0.2)" : CYAN,
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <Icon name="ChevronLeft" size={16} />
-                </button>
-                <button
-                  onClick={() => setSvcIdx(i => Math.min(svcTotal - 1, i + 1))}
-                  disabled={svcIdx >= svcTotal - 1}
-                  style={{
-                    width: "36px", height: "36px",
-                    border: `1px solid rgba(0,245,255,${svcIdx >= svcTotal - 1 ? "0.1" : "0.35"})`,
-                    background: "transparent",
-                    cursor: svcIdx >= svcTotal - 1 ? "default" : "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: svcIdx >= svcTotal - 1 ? "rgba(0,245,255,0.2)" : CYAN,
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <Icon name="ChevronRight" size={16} />
-                </button>
-              </div>
+              <button
+                onClick={() => setSvcIdx(i => Math.min(svcTotal - 1, i + 1))}
+                disabled={svcIdx >= svcTotal - 1}
+                style={{
+                  background: "none", border: "none",
+                  cursor: svcIdx >= svcTotal - 1 ? "default" : "pointer",
+                  color: svcIdx >= svcTotal - 1 ? "rgba(0,245,255,0.2)" : CYAN,
+                  display: "flex", alignItems: "center",
+                  transition: "all 0.2s", padding: 0,
+                }}
+              >
+                <Icon name="ChevronRight" size={22} />
+              </button>
             </div>
           </div>
         </div>
