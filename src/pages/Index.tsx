@@ -88,6 +88,12 @@ export default function Index() {
   const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
   const [isAnimating, setIsAnimating] = useState(false);
   const [lang, setLang] = useState<"RU" | "EN">("RU");
+  const [wordIdx, setWordIdx] = useState(0);
+  const WORDS_CYCLE = ["Снимаем", "Выстраиваем", "Реализуем", "Удерживаем", "Привлекаем"];
+  useEffect(() => {
+    const t = setInterval(() => setWordIdx(i => (i + 1) % WORDS_CYCLE.length), 2200);
+    return () => clearInterval(t);
+  }, []);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
@@ -337,31 +343,31 @@ export default function Index() {
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 700,
                 fontSize: "clamp(2.4rem, 5.5vw, 4.8rem)",
-                lineHeight: 1.0,
-                letterSpacing: "0.04em",
-                textTransform: "uppercase",
-                color: "#D0F4F8",
-                marginBottom: "8px",
-                textShadow: "0 0 60px rgba(0,245,255,0.2)",
-              }}
-            >
-              Лучше снимать,
-            </h1>
-            <h1
-              style={{
-                fontFamily: "'Rajdhani', sans-serif",
-                fontWeight: 300,
-                fontStyle: "italic",
-                fontSize: "clamp(2.4rem, 5.5vw, 4.8rem)",
-                lineHeight: 1.0,
+                lineHeight: 1.05,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: CYAN,
                 marginBottom: "24px",
-                textShadow: "0 0 40px rgba(0,245,255,0.5)",
+                textShadow: "0 0 40px rgba(0,245,255,0.45)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.3em",
+                flexWrap: "wrap",
               }}
             >
-              чем не снимать
+              <span style={{ color: "#D0F4F8", fontWeight: 700 }}>Мы</span>
+              <span
+                key={wordIdx}
+                style={{
+                  display: "inline-block",
+                  animation: "fade-up 0.45s ease both",
+                  color: CYAN,
+                  fontStyle: "italic",
+                  fontWeight: 300,
+                }}
+              >
+                {WORDS_CYCLE[wordIdx]}
+              </span>
             </h1>
 
             <div style={{ width: "60px", height: "1px", background: CYAN, opacity: 0.4, marginBottom: "20px" }} />
