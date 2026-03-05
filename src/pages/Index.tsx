@@ -816,7 +816,7 @@ export default function Index() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
               <div style={{ width: "32px", height: "32px", border: `1px solid ${CYAN}`, overflow: "hidden", boxShadow: "0 0 10px rgba(0,245,255,0.2)", flexShrink: 0 }}>
-                <img src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/4086979b-b476-4b45-8428-1887096e0113.jpg" alt="logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://cdn.poehali.dev/projects/6c323c1b-5d83-418c-a327-b7e4050f6428/files/59f2e9e6-416f-40c0-a7e7-b78e928db598.jpg" alt="logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <span style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#D0F4F8" }}>Manzhour-Media</span>
             </div>
