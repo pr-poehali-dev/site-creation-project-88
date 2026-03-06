@@ -348,15 +348,7 @@ export default function Index() {
               <button className="btn-outline">О студии</button>
             </div>
 
-            {/* Stats */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", border: "1px solid rgba(0,245,255,0.12)", maxWidth: "340px" }}>
-              {[["200+", "Проектов"], ["20+", "Лет опыта"], ["50+", "Наград"]].map(([n, l], i) => (
-                <div key={l} style={{ padding: "12px 16px", borderRight: i < 2 ? "1px solid rgba(0,245,255,0.12)" : "none", background: "rgba(8,12,18,0.5)", backdropFilter: "blur(8px)" }}>
-                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "1.4rem", color: CYAN, textShadow: "0 0 16px rgba(0,245,255,0.5)", lineHeight: 1 }}>{n}</div>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#2A7080", marginTop: "3px" }}>{l}</div>
-                </div>
-              ))}
-            </div>
+
           </div>
 
           {/* RIGHT — 3D word sphere */}
