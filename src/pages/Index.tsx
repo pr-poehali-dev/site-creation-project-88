@@ -645,8 +645,7 @@ export default function Index() {
               <Tag>// КОМАНДА</Tag>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "20px" }}>
                 {[
-                  { name: "Александр Воронов", role: "Режиссёр-постановщик", phone: "+7 (495) 123-45-67", email: "voronov@kinoarkhiv.ru" },
-                  { name: "Мария Соколова",     role: "Продюсер",             phone: "+7 (495) 987-65-43", email: "sokolova@kinoarkhiv.ru" },
+                  { name: "Леонид Маньчжур", role: "Продюсер", phone: "+7 (911) 074-62-06", email: "manzhou25@gmail.com" },
                 ].map((m, i) => (
                   <div key={i} style={{ display: "flex", gap: "14px", padding: "16px", border: "1px solid rgba(0,245,255,0.1)", background: "rgba(0,245,255,0.02)" }}>
                     <div style={{ width: "40px", height: "40px", border: "1px solid rgba(0,245,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "rgba(0,245,255,0.04)" }}>
