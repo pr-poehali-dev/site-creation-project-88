@@ -680,9 +680,9 @@ export default function Index() {
                 <Tag>// РЕКВИЗИТЫ</Tag>
                 <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
                   {[
-                    { icon: "MapPin", val: "Москва, ул. Мосфильмовская, д. 1" },
+                    { icon: "MapPin", val: "МО, д. Коробово, ул. Взлётная, 2" },
                     { icon: "Phone",  val: "+7 (495) 456-78-90" },
-                    { icon: "Mail",   val: "info@kinoarkhiv.ru" },
+                    { icon: "Mail",   val: "manzuitech@gmail.com" },
                   ].map(({ icon, val }) => (
                     <div key={val} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                       <Icon name={icon} size={13} style={{ color: CYAN, opacity: 0.6, marginTop: "1px", flexShrink: 0 }} />
