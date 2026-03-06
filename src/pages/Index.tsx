@@ -719,7 +719,7 @@ export default function Index() {
               <span style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#D0F4F8" }}>Manzhour-Media</span>
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 300, fontSize: "0.8rem", lineHeight: 1.75, color: "#2A6066" }}>
-              Студия визуального искусства. Создаём кино, которое остаётся в памяти.
+              Студия производства медиа продуктов. Строим диджитал-сети..
             </p>
           </div>
           {[
