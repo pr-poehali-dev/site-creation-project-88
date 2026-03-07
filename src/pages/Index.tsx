@@ -74,10 +74,19 @@ const SectionHead = ({
 const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved ? saved === "dark" : true;
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light", !isDark);
+  }, []);
+
   const toggleTheme = () => {
     const next = !isDark;
     setIsDark(next);
+    localStorage.setItem("theme", next ? "dark" : "light");
     document.documentElement.classList.toggle("light", !next);
   };
   const [svcIdx, setSvcIdx] = useState(0);
