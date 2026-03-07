@@ -74,6 +74,7 @@ const SectionHead = ({
 const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
+  const [isDark, setIsDark] = useState(true);
   const [svcIdx, setSvcIdx] = useState(0);
   const SVC_PER_PAGE = 4;
   const svcTotal = services.length - SVC_PER_PAGE + 1;
@@ -196,6 +197,13 @@ export default function Index() {
             ))}
             <button style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#00F5FF", display: "flex", alignItems: "center" }}>
               <Icon name="Search" size={14} />
+            </button>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#00F5FF", display: "flex", alignItems: "center" }}
+              title={isDark ? "Светлая тема" : "Тёмная тема"}
+            >
+              <Icon name={isDark ? "Sun" : "Moon"} size={14} />
             </button>
             <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "0.72rem" }}>
               <button className="nav-link" style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontWeight: 600, color: "#00F5FF", fontSize: "0.72rem" }}>RU</button>
