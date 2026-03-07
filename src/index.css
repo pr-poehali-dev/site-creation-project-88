@@ -38,6 +38,19 @@
   }
 }
 
+html.light {
+  --cyan: #0077aa;
+  --cyan-dim: #005580;
+  --purple: #6633cc;
+  --bg: #f0f4f8;
+  --bg-card: #e2eaf2;
+  --bg-mid: #d8e4ee;
+  --grid-line: rgba(0, 100, 160, 0.08);
+  --glow-cyan:
+    0 0 20px rgba(0, 119, 170, 0.25), 0 0 60px rgba(0, 119, 170, 0.08);
+  --glow-sm: 0 0 10px rgba(0, 119, 170, 0.2);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -47,7 +60,38 @@
     color: #b0e8ec;
     font-family: "Space Grotesk", sans-serif;
     overflow-x: hidden;
+    transition:
+      background 0.3s ease,
+      color 0.3s ease;
   }
+}
+
+html.light body {
+  color: #0a3a4a;
+}
+html.light .nav-link {
+  color: #2a6080;
+}
+html.light .nav-link:hover {
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(0, 119, 170, 0.4);
+}
+html.light .sec-title {
+  color: #0a2a3a;
+}
+html.light .field {
+  color: #0a3a4a;
+  background: rgba(0, 119, 170, 0.04);
+  border-color: rgba(0, 119, 170, 0.2);
+}
+html.light .field::placeholder {
+  color: #5a8a9a;
+}
+html.light .btn-primary {
+  color: #f0f4f8;
+}
+html.light .ht-card {
+  border-color: rgba(0, 119, 170, 0.15);
 }
 
 body {

@@ -16,9 +16,9 @@ const HERO_SLIDES = [
   { img: IMG1, label: "Прогрессивная история", sub: "Художественный кинематограф" },
 ];
 
-const CYAN  = "#00F5FF";
-const BG    = "#080C12";
-const BGCARD= "#0C1119";
+const CYAN  = "var(--cyan)";
+const BG    = "var(--bg)";
+const BGCARD= "var(--bg-card)";
 
 const navLinks = ["Что создаём", "Сделано", "Новости и Акции", "Больше", "Контакты"];
 
@@ -75,6 +75,11 @@ const Rule = () => <hr className="hr-rule" />;
 
 export default function Index() {
   const [isDark, setIsDark] = useState(true);
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle("light", !next);
+  };
   const [svcIdx, setSvcIdx] = useState(0);
   const SVC_PER_PAGE = 4;
   const svcTotal = services.length - SVC_PER_PAGE + 1;
@@ -199,7 +204,7 @@ export default function Index() {
               <Icon name="Search" size={14} />
             </button>
             <button
-              onClick={() => setIsDark(!isDark)}
+              onClick={toggleTheme}
               style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#00F5FF", display: "flex", alignItems: "center" }}
               title={isDark ? "Светлая тема" : "Тёмная тема"}
             >
